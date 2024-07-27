@@ -19,7 +19,7 @@ class ApiService {
     final response = await http.post(
       Uri.parse('$baseUrl/adicionar_prato'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: {'nome': nome, 'preco': preco},
+      body: 'nome=$nome&preco=$preco',
     );
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
