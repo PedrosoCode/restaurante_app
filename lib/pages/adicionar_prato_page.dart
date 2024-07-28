@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurante_app/services/api_service.dart';
+import 'package:restaurante_app/services/pratos_service.dart';
 
 class AdicionarPratoPage extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _AdicionarPratoPageState extends State<AdicionarPratoPage> {
     try {
       final nome = nomeController.text;
       final preco = precoController.text;
-      final response = await ApiService.adicionarPrato(nome, preco);
+      final response = await PratosService.adicionarPrato(nome, preco);
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Prato adicionado')));

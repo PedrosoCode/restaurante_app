@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurante_app/services/api_service.dart';
+import 'package:restaurante_app/services/pratos_service.dart';
 
 class ListarPratosPage extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
 
   Future<void> fetchPratos() async {
     try {
-      final response = await ApiService.getPratos();
+      final response = await PratosService.getPratos();
       setState(() {
         pratos = List<Map<String, dynamic>>.from(response.map((prato) => {
               'id': prato['id'] ?? '',
@@ -33,7 +33,7 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
 
   Future<void> adicionarPrato(String nome, String preco) async {
     try {
-      await ApiService.adicionarPrato(nome, preco);
+      await PratosService.adicionarPrato(nome, preco);
       fetchPratos(); // Atualiza a lista de pratos após a adição
     } catch (e) {
       print('Error: $e');
@@ -43,7 +43,7 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
 
   Future<void> deletarPrato(int id) async {
     try {
-      await ApiService.deletarPrato(id);
+      await PratosService.deletarPrato(id);
       fetchPratos(); // Atualiza a lista de pratos após a exclusão
     } catch (e) {
       print('Error: $e');
@@ -53,7 +53,7 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
 
   Future<void> atualizarPrato(int id, String nome, String preco) async {
     try {
-      await ApiService.atualizarPrato(id, nome, preco);
+      await PratosService.atualizarPrato(id, nome, preco);
       fetchPratos(); // Atualiza a lista de pratos após a atualização
     } catch (e) {
       print('Error: $e');
