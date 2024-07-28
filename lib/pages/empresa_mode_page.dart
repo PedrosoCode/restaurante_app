@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurante_app/pages/listar_pratos_page.dart';
 import 'package:restaurante_app/pages/adicionar_prato_page.dart';
+import 'package:restaurante_app/pages/gerenciar_imagens_page.dart';
 
 class EmpresaModePage extends StatelessWidget {
   @override
@@ -31,6 +32,17 @@ class EmpresaModePage extends StatelessWidget {
                 );
               },
               child: Text('Adicionar Prato'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => GerenciarImagensPage()),
+                );
+              },
+              child: Text('Gerenciar Imagens'),
             ),
           ],
         ),
