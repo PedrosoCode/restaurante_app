@@ -31,6 +31,39 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
     }
   }
 
+  Future<void> deletarPrato(int id) async {
+    try {
+      await ApiService.deletarPrato(id);
+      fetchPratos(); // Atualiza a lista de pratos após a exclusão
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to delete prato');
+    }
+  }
+
+  void showDeleteConfirmationDialog(int id) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmar Exclusão'),
+        content: Text('Você tem certeza que deseja excluir este prato?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              deletarPrato(id);
+              Navigator.of(context).pop();
+            },
+            child: Text('Excluir'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +74,17 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
         itemCount: pratos.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(pratos[index]['nome'] ?? 'Nome não disponível'),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(pratos[index]['nome'] ?? 'Nome não disponível'),
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () =>
+                      showDeleteConfirmationDialog(pratos[index]['id']),
+                ),
+              ],
+            ),
             subtitle: Text(
                 'Preço: ${pratos[index]['preco'] ?? 'Preço não disponível'}'),
           );
