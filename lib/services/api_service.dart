@@ -5,7 +5,7 @@ class ApiService {
   static const String baseUrl = 'http://localhost:8080';
 
   static Future<List<dynamic>> getPratos() async {
-    final response = await http.get(Uri.parse('$baseUrl/pratos/pratos'));
+    final response = await http.get(Uri.parse('$baseUrl/pratos/'));
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     if (response.statusCode == 200) {
@@ -39,6 +39,22 @@ class ApiService {
       return http.Response('Prato deletado', response.statusCode);
     } else {
       throw Exception('Failed to delete prato');
+    }
+  }
+
+  static Future<http.Response> atualizarPrato(
+      int id, String nome, String preco) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/pratos/atualizar/$id'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'nome=$nome&preco=$preco',
+    );
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    if (response.statusCode == 200) {
+      return http.Response('Prato atualizado', response.statusCode);
+    } else {
+      throw Exception('Failed to update prato');
     }
   }
 }

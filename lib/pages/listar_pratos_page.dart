@@ -31,6 +31,16 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
     }
   }
 
+  Future<void> adicionarPrato(String nome, String preco) async {
+    try {
+      await ApiService.adicionarPrato(nome, preco);
+      fetchPratos(); // Atualiza a lista de pratos após a adição
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to add prato');
+    }
+  }
+
   Future<void> deletarPrato(int id) async {
     try {
       await ApiService.deletarPrato(id);
@@ -39,6 +49,100 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
       print('Error: $e');
       throw Exception('Failed to delete prato');
     }
+  }
+
+  Future<void> atualizarPrato(int id, String nome, String preco) async {
+    try {
+      await ApiService.atualizarPrato(id, nome, preco);
+      fetchPratos(); // Atualiza a lista de pratos após a atualização
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to update prato');
+    }
+  }
+
+  void showAddPratoDialog() {
+    TextEditingController nomeController = TextEditingController();
+    TextEditingController precoController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Adicionar Prato'),
+        content: Column(
+          children: [
+            TextField(
+              controller: nomeController,
+              decoration: InputDecoration(hintText: 'Nome do Prato'),
+            ),
+            TextField(
+              controller: precoController,
+              decoration: InputDecoration(hintText: 'Preço do Prato'),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (nomeController.text.isNotEmpty &&
+                  precoController.text.isNotEmpty) {
+                adicionarPrato(nomeController.text, precoController.text);
+                Navigator.of(context).pop();
+              }
+            },
+            child: Text('Adicionar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showUpdatePratoDialog(int id, String currentNome, String currentPreco) {
+    TextEditingController nomeController =
+        TextEditingController(text: currentNome);
+    TextEditingController precoController =
+        TextEditingController(text: currentPreco);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Atualizar Prato'),
+        content: Column(
+          children: [
+            TextField(
+              controller: nomeController,
+              decoration: InputDecoration(hintText: 'Nome do Prato'),
+            ),
+            TextField(
+              controller: precoController,
+              decoration: InputDecoration(hintText: 'Preço do Prato'),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (nomeController.text.isNotEmpty &&
+                  precoController.text.isNotEmpty) {
+                atualizarPrato(id, nomeController.text, precoController.text);
+                Navigator.of(context).pop();
+              }
+            },
+            child: Text('Atualizar'),
+          ),
+        ],
+      ),
+    );
   }
 
   void showDeleteConfirmationDialog(int id) {
@@ -69,6 +173,12 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Listar Pratos'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: showAddPratoDialog,
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: pratos.length,
@@ -78,10 +188,21 @@ class _ListarPratosPageState extends State<ListarPratosPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(pratos[index]['nome'] ?? 'Nome não disponível'),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () =>
-                      showDeleteConfirmationDialog(pratos[index]['id']),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () => showUpdatePratoDialog(
+                          pratos[index]['id'],
+                          pratos[index]['nome'],
+                          pratos[index]['preco']),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () =>
+                          showDeleteConfirmationDialog(pratos[index]['id']),
+                    ),
+                  ],
                 ),
               ],
             ),
