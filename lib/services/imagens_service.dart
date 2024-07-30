@@ -22,4 +22,31 @@ class ImagensService {
       throw Exception('Failed to add image');
     }
   }
+
+  static Future<List<dynamic>> listarImagens() async {
+    final response = await http.get(Uri.parse('$baseUrl/imagens/imagens'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load images');
+    }
+  }
+
+  static Future<void> editarImagem(int id, String nome) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/imagens/$id'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'nome': nome}),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update image');
+    }
+  }
+
+  static Future<void> excluirImagem(int id) async {
+    final response = await http.delete(Uri.parse('$baseUrl/imagens/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete image');
+    }
+  }
 }

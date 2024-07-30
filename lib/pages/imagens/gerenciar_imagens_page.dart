@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurante_app/pages/imagens/criar_imagem_page.dart';
+import 'package:restaurante_app/pages/imagens/listar_imagens_page.dart';
 
 //FIXME - quando faz o upload de imagem grande demais, ocorre um overflow e se perde visão dos controladores
 
@@ -26,7 +27,10 @@ class GerenciarImagensPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Implementar navegação para listagem de imagens futuramente
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ListarImagensPage()),
+                );
               },
               child: Text('Listar Imagens'),
             ),
