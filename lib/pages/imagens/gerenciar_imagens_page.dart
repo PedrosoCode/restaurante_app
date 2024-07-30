@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurante_app/pages/criar_imagem_page.dart';
+import 'package:restaurante_app/pages/imagens/criar_imagem_page.dart';
 
 //FIXME - quando faz o upload de imagem grande demais, ocorre um overflow e se perde visão dos controladores
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurante_app/pages/empresa_mode_page.dart';
-import 'package:restaurante_app/pages/usuario_mode_page.dart';
+import 'package:restaurante_app/pages/front/empresa_mode_page.dart';
+import 'package:restaurante_app/pages/front/usuario_mode_page.dart';
 
 class HomePage extends StatelessWidget {
   @override

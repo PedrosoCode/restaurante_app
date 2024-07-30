@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurante_app/pages/listar_pratos_page.dart';
-import 'package:restaurante_app/pages/adicionar_prato_page.dart';
-import 'package:restaurante_app/pages/gerenciar_imagens_page.dart';
+import 'package:restaurante_app/pages/pratos/listar_pratos_page.dart';
+import 'package:restaurante_app/pages/pratos/adicionar_prato_page.dart';
+import 'package:restaurante_app/pages/imagens/gerenciar_imagens_page.dart';
 
 class EmpresaModePage extends StatelessWidget {
   @override
